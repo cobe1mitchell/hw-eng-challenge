@@ -1,0 +1,44 @@
+Device Measurement Challenge - Results Summary
+====================================================
+Total trials: 311
+Trials with numeric measurements: 182
+PASS count: 175
+OUT_OF_RANGE count: 7
+FAIL count: 129
+
+Best overall measured setting:
+  trial=291  stage=fine  status=PASS
+  tx_level=186, eq_gain=8, pre_emphasis=3
+  snr_db=16.589, eye_height_mv=298.800, eye_width_ps=58.400, ber=0
+
+Best PASS setting:
+  trial=291  stage=fine
+  tx_level=186, eq_gain=8, pre_emphasis=3
+  snr_db=16.589, eye_height_mv=298.800, eye_width_ps=58.400, ber=0
+
+Top 10 parameter combinations by mean snr_db:
+  snr_db=16.589 | tx_level=186, eq_gain=8, pre_emphasis=3
+  snr_db=16.434 | tx_level=192, eq_gain=8, pre_emphasis=3
+  snr_db=16.421 | tx_level=212, eq_gain=8, pre_emphasis=3
+  snr_db=16.385 | tx_level=180, eq_gain=8, pre_emphasis=3
+  snr_db=16.347 | tx_level=160, eq_gain=8, pre_emphasis=3
+  snr_db=16.339 | tx_level=186, eq_gain=7, pre_emphasis=3
+  snr_db=16.297 | tx_level=172, eq_gain=8, pre_emphasis=3
+  snr_db=16.289 | tx_level=204, eq_gain=8, pre_emphasis=3
+  snr_db=16.187 | tx_level=198, eq_gain=8, pre_emphasis=3
+  snr_db=16.125 | tx_level=224, eq_gain=8, pre_emphasis=3
+
+Metric correlations:
+  corr(snr_db, eye_height_mv) = 0.995
+  corr(snr_db, eye_width_ps) = 0.994
+  corr(snr_db, ber) = -0.811
+
+Parameter influence estimate (based on mean-snr range):
+  pre_emphasis: 7.983 dB spread
+  tx_level: 6.511 dB spread
+  eq_gain: 6.389 dB spread
+
+Suggested next search window (based on top 20 rows):
+  tx_level: 148 to 236
+  eq_gain: 7 to 9
+  pre_emphasis: 2 to 3
