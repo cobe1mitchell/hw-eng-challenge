@@ -46,8 +46,8 @@ EQ_MIN, EQ_MAX = 0, 15
 EM_MIN, EM_MAX = 0, 7
 
 # Search controls
-MEASURE_RETRIES = 2            # retry count after the first failure
-TOP_K_CENTERS = 5              # refine around the best K coarse points
+MEASURE_RETRIES = 2
+TOP_K_CENTERS = 5
 
 
 # ---------------------------------------------------------------------------
@@ -73,9 +73,7 @@ def classify_status(data: Optional[Dict[str, float]]) -> str:
 
 
 def measure_with_retry(conn, n_samples: int = 500) -> Optional[Dict[str, float]]:
-    """
-    Retry measurement a few times to reduce transient FAILs.
-    """
+    """Retry measurement a few times to reduce transient FAILs."""
     for _ in range(MEASURE_RETRIES + 1):
         data = measure(conn, n_samples=n_samples)
         if data is not None:
@@ -129,10 +127,7 @@ def run_trial(conn, writer, trial_idx: int, stage: str, candidate: Dict[str, int
 
 
 def coarse_candidates() -> List[Dict[str, int]]:
-    """
-    Broad exploratory sweep.
-    Chosen to cover the parameter space sparsely but still reasonably well.
-    """
+    """Broad exploratory sweep."""
     tx_values = [64, 96, 128, 160, 192, 224, 255]
     eq_values = [0, 4, 8, 12, 15]
     em_values = [0, 2, 4, 6, 7]
@@ -151,9 +146,7 @@ def neighborhood(
     eq_step: int,
     em_step: int,
 ) -> List[Dict[str, int]]:
-    """
-    Generate a local neighborhood around a promising point.
-    """
+    """Generate a local neighborhood around a promising point."""
     tx_values = sorted({
         clamp(center["tx_level"] - tx_step, TX_MIN, TX_MAX),
         center["tx_level"],
@@ -197,9 +190,7 @@ def main():
         writer = csv.DictWriter(f, fieldnames=FIELDNAMES)
         writer.writeheader()
 
-        # ---------------------------------------------------------------
         # Stage 1: coarse sweep
-        # ---------------------------------------------------------------
         for candidate in coarse_candidates():
             key = candidate_key(candidate)
             if key in seen:
@@ -219,9 +210,7 @@ def main():
             print("Done.")
             return
 
-        # ---------------------------------------------------------------
         # Stage 2: medium refinement around top coarse points
-        # ---------------------------------------------------------------
         top_centers = ranked[:TOP_K_CENTERS]
 
         for center_row in top_centers:
@@ -246,9 +235,7 @@ def main():
         ranked = sort_best_rows(all_rows)
         best = ranked[0]
 
-        # ---------------------------------------------------------------
         # Stage 3: fine refinement around the current best point
-        # ---------------------------------------------------------------
         best_center = {
             "tx_level": best["tx_level"],
             "eq_gain": best["eq_gain"],
@@ -298,3 +285,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
